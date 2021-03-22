@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wait: 1
+  name: MyString
+  sequence_definition: one
+  mail_content: MyText
+  mail_subject: MyString
+
+two:
+  wait: 1
+  name: MyString
+  sequence_definition: two
+  mail_content: MyText
+  mail_subject: MyString

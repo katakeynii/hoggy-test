@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_225338) do
+ActiveRecord::Schema.define(version: 2021_03_22_230050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,4 +22,16 @@ ActiveRecord::Schema.define(version: 2021_03_22_225338) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "sequence_steps", force: :cascade do |t|
+    t.integer "wait"
+    t.string "name"
+    t.bigint "sequence_definition_id", null: false
+    t.text "mail_content"
+    t.string "mail_subject"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sequence_definition_id"], name: "index_sequence_steps_on_sequence_definition_id"
+  end
+
+  add_foreign_key "sequence_steps", "sequence_definitions"
 end
