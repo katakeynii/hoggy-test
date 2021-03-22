@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_230509) do
+ActiveRecord::Schema.define(version: 2021_03_22_231401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,8 +46,12 @@ ActiveRecord::Schema.define(version: 2021_03_22_230509) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "sent_at"
+    t.boolean "is_sent", default: false
+    t.bigint "sequence_step_id"
     t.index ["sequence_definition_id"], name: "index_sequence_subscriptions_on_sequence_definition_id"
-    t.index ["user_type", "user_id", "sequence_definition_id"], name: "user_sequence_definition_idx", unique: true
+    t.index ["sequence_step_id"], name: "index_sequence_subscriptions_on_sequence_step_id"
+    t.index ["user_type", "user_id", "sequence_definition_id", "sequence_step_id"], name: "user_sequence_def_and_step_idx", unique: true
     t.index ["user_type", "user_id"], name: "index_sequence_subscriptions_on_user"
   end
 
