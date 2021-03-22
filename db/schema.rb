@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_230050) do
+ActiveRecord::Schema.define(version: 2021_03_22_230509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clients", force: :cascade do |t|
+    t.string "email"
+    t.text "demand_description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "sequence_definitions", force: :cascade do |t|
     t.string "name"
@@ -33,5 +40,17 @@ ActiveRecord::Schema.define(version: 2021_03_22_230050) do
     t.index ["sequence_definition_id"], name: "index_sequence_steps_on_sequence_definition_id"
   end
 
+  create_table "sequence_subscriptions", force: :cascade do |t|
+    t.bigint "sequence_definition_id", null: false
+    t.string "user_type", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sequence_definition_id"], name: "index_sequence_subscriptions_on_sequence_definition_id"
+    t.index ["user_type", "user_id", "sequence_definition_id"], name: "user_sequence_definition_idx", unique: true
+    t.index ["user_type", "user_id"], name: "index_sequence_subscriptions_on_user"
+  end
+
   add_foreign_key "sequence_steps", "sequence_definitions"
+  add_foreign_key "sequence_subscriptions", "sequence_definitions"
 end

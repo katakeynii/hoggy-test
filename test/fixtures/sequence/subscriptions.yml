@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sequence_definition: one
+  user: one
+  user_type: User
+
+two:
+  sequence_definition: two
+  user: two
+  user_type: User
