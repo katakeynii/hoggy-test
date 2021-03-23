@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sent_at: 2021-03-23 00:27:15
+  is_sent: false
+  sequence_step: one
+  sequence_subscription: one
+
+two:
+  sent_at: 2021-03-23 00:27:15
+  is_sent: false
+  sequence_step: two
+  sequence_subscription: two

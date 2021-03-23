@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_231401) do
+ActiveRecord::Schema.define(version: 2021_03_23_002757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,18 @@ ActiveRecord::Schema.define(version: 2021_03_22_231401) do
     t.string "slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sequence_step_occurrences", force: :cascade do |t|
+    t.datetime "sent_at"
+    t.boolean "is_sent"
+    t.bigint "sequence_step_id", null: false
+    t.bigint "sequence_subscription_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sequence_step_id"], name: "index_sequence_step_occurrences_on_sequence_step_id"
+    t.index ["sequence_subscription_id", "sequence_step_id"], name: "user_sequence_step_subscription_idx", unique: true
+    t.index ["sequence_subscription_id"], name: "index_sequence_step_occurrences_on_sequence_subscription_id"
   end
 
   create_table "sequence_steps", force: :cascade do |t|
@@ -46,15 +58,12 @@ ActiveRecord::Schema.define(version: 2021_03_22_231401) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "sent_at"
-    t.boolean "is_sent", default: false
-    t.bigint "sequence_step_id"
     t.index ["sequence_definition_id"], name: "index_sequence_subscriptions_on_sequence_definition_id"
-    t.index ["sequence_step_id"], name: "index_sequence_subscriptions_on_sequence_step_id"
-    t.index ["user_type", "user_id", "sequence_definition_id", "sequence_step_id"], name: "user_sequence_def_and_step_idx", unique: true
     t.index ["user_type", "user_id"], name: "index_sequence_subscriptions_on_user"
   end
 
+  add_foreign_key "sequence_step_occurrences", "sequence_steps"
+  add_foreign_key "sequence_step_occurrences", "sequence_subscriptions"
   add_foreign_key "sequence_steps", "sequence_definitions"
   add_foreign_key "sequence_subscriptions", "sequence_definitions"
 end
