@@ -14,6 +14,7 @@ class Sequence::Subscription < ApplicationRecord
         occ.sequence_subscription = self
       end
     end
+    Scheduler.run
   end
 
   rails_admin do
@@ -27,8 +28,8 @@ class Sequence::Subscription < ApplicationRecord
   end
 
   def custom_label_method
-    definition = self.sequence_definition.name 
-    user = self.user.email 
+    definition = self&.sequence_definition&.name 
+    user = self&.user&.email 
     "#{definition} ->  #{user}"
   end
 end

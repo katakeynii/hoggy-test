@@ -1,10 +1,10 @@
 class MiddlewareStack
-    attr_reader :middleware 
+    attr_reader :middlewares 
 
     def initialize
-      @middleware = [
+      @middlewares = [
           :middleware,
-          :middleware2
+          :stop_on_sequence2
       ]
     end
     def middleware occurrence
@@ -12,8 +12,14 @@ class MiddlewareStack
     end
 
     def stop_on_sequence2 occurrence
-        presence = occurrence&.sequence_subscription&.user&.demand_description
-        presence.nil?
+        
+        slug = occurrence&.sequence_subscription&.sequence_definition&.slug
+        if slug.eql?("completion-demane")
+            presence = occurrence&.sequence_subscription&.user&.demand_description
+            presence.blank?
+        else
+            true
+        end
     end
 
     def run(occurrence)

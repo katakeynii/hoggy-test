@@ -6,19 +6,17 @@ class SequenceMailer < ApplicationMailer
   #   en.sequence_mailer.dispatch.subject
   #
   def dispatch
-    puts "1 =======>"
     user = params[:user]
     @step = params[:step]
-    # occurrence = params[:occurrence]
-    puts "2 =======>"
-
     subject = @step.mail_subject
-    puts user.inspect
-    puts "3 =======>"
+    should_run = MiddlewareStack.new.run(occurrence)
+    if should_run
+        mail(
+            to: user.email,
+            subject: subject
+        )
+        occurrence.update!(is_sent: true, sent_at: DateTime.now)
+    end
 
-    mail(
-        to: user.email,
-        subject: subject
-    )
   end
 end
